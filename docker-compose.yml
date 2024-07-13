@@ -1,0 +1,53 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:14.8-alpine3.18
+    env_file: .env
+    volumes:
+      - currate-data:/var/lib/postgresql/data
+    networks:
+      - the_net
+
+  redis:
+    image: redis:alpine
+
+  web:
+    build: .
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - the_net
+
+  celery:
+    build: .
+    env_file: .env
+    entrypoint: celery
+    command: -A currate.celery worker --loglevel=info
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - redis
+
+  celery-beat:
+    build: .
+    env_file: .env
+    entrypoint: celery
+    command: -A currate.celery beat --loglevel=info
+    volumes:
+      - .:/usr/src/app/
+    depends_on:
+      - redis
+
+volumes:
+  currate-data:
+
+networks:
+  the_net:
