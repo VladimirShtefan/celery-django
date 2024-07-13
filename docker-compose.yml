@@ -13,6 +13,8 @@ services:
 
   redis:
     image: redis:alpine
+    networks:
+      - the_net
 
   web:
     build: .
@@ -40,6 +42,8 @@ services:
       - .:/usr/src/app/
     depends_on:
       - redis
+    networks:
+      - the_net
 
   celery-beat:
     build: .
@@ -50,6 +54,8 @@ services:
       - .:/usr/src/app/
     depends_on:
       - redis
+    networks:
+      - the_net
 
 volumes:
   currate-data:

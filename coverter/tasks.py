@@ -18,9 +18,10 @@ def sample_task() -> None:
     api_data = get_rates_api()
     converted_data = covert_info(api_data)
     serializer = RateSerializer(data=converted_data, many=True)
-    if serializer.is_valid(raise_exception=True):
+    if serializer.is_valid():
         serializer.save()
-    logger.info("Bad data from rates API")
+    else:
+        logger.info("Bad data from rates API")
 
 
 def get_rates_api() -> dict:
