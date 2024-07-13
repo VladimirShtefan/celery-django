@@ -15,8 +15,6 @@ from pathlib import Path
 from celery.schedules import crontab
 from dotenv import load_dotenv
 
-import coverter.tasks
-
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -44,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'django_celery_beat',
     'django_celery_results',
     'coverter',
@@ -90,7 +89,7 @@ DATABASES = {
         "USER": os.environ.get('POSTGRES_USER'),
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD'),
         "HOST": os.environ.get('POSTGRES_HOST'),
-        "PORT": os.environ.get('POSTGRES_PORT'),
+        "PORT": 5432,
     }
 }
 

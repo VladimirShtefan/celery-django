@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from coverter.models import Rate
+
+
+@admin.register(Rate)
+class RateAdmin(admin.ModelAdmin):
+    exclude = ()
