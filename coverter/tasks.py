@@ -18,7 +18,7 @@ def sample_task() -> None:
     api_data = get_rates_api()
     converted_data = covert_info(api_data)
     serializer = RateSerializer(data=converted_data, many=True)
-    if serializer.is_valid():
+    if serializer.is_valid(raise_exception=True):
         serializer.save()
     logger.info("Bad data from rates API")
 
@@ -42,8 +42,6 @@ def covert_info(data: dict) -> list[dict]:
     :param data:
     :return:
     """
-    print(data)
-    print(Rate.Name.values)
     return [
         {
             "short_name": key,
