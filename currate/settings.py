@@ -132,16 +132,16 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+#         'LOCATION': 'redis://redis:6379',
+#     }
+# }
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
-CELERY_RESULT_BACKEND = os.environ.get('CELERY_BROKER_URL')
-
-CELERY_BEAT_SCHEDULE = {
-    "sample_task": {
-        "task": "coverter.tasks.sample_task",
-        "schedule": crontab(minute="*/1"),
-    },
-}
+CELERY_RESULT_BACKEND = 'django-db'
 
 STATIC_ROOT = 'static/'
